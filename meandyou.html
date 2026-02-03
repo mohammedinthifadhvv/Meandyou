@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Annu 💖</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Card */
+.card {
+  background: white;
+  padding: 28px;
+  border-radius: 22px;
+  text-align: center;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  max-width: 360px;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.card.slide-out { transform: translateY(-50px); opacity: 0; }
+.card.slide-in { transform: translateY(0); opacity: 1; animation: pop 0.5s ease; }
+
+@keyframes pop {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+h1 { color: #ff4d6d; font-size: 22px; }
+.annu { font-family: 'Pacifico', cursive; font-size: 34px; color: #ff2f68; letter-spacing: 2px; }
+p { color: #555; font-size: 15px; line-height: 1.6; }
+
+/* Buttons */
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between; /* symmetric spacing */
+  gap: 20px; /* space between buttons */
+  position: relative; /* needed for NO movement */
+}
+
+button {
+  flex: 1; /* equal width */
+  border: none;
+  padding: 12px 0;
+  border-radius: 30px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+button:hover {
+  transform: scale(1.15);
+  box-shadow: 0 10px 20px rgba(255,77,109,0.3);
+}
+
+#yes { background: #ff4d6d; color: white; }
+#no { background: #eee; color: #444; position: relative; } /* relative so transform works in flex */
+
+/* Glowing result text */
+#result { font-size: 20px; margin-top: 15px; color: #ff4d6d; animation: glow 1.2s infinite alternate; }
+@keyframes glow {
+  0%,100% { text-shadow: 0 0 5px #ff4d6d; }
+  50% { text-shadow: 0 0 15px #ff4d6d, 0 0 25px #ff7eb3; }
+}
+
+/* Floating hearts */
+.heart { position: fixed; bottom: -20px; pointer-events: none; animation-name: floatUp; animation-timing-function: linear; opacity: 0.7; z-index: 1; }
+@keyframes floatUp { from { transform: translateY(0) translateX(0) scale(1); opacity: 0.8; } to { transform: translateY(-120vh) translateX(var(--drift)) scale(1.3); opacity: 0; } }
+
+/* Heart explosion */
+.explosion { position: fixed; pointer-events: none; font-size: 24px; z-index: 50; animation: explode 1s ease-out forwards; }
+@keyframes explode { 0% { transform: scale(0.5) translate(0,0); opacity: 1; } 100% { transform: scale(2) translate(var(--x), var(--y)); opacity: 0; } }
+
+/* Corner GIFs */
+.corner-gif { position: fixed; bottom: 30px; width: 90px; z-index: 30; }
+.left-gif { left: 30px; } .right-gif { right: 30px; }
+
+/* Background shimmer */
+.bg-shimmer { position: fixed; top:0; left:0; width:100%; height:100%; background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%); animation: shimmer 3s infinite linear; pointer-events:none; z-index:0; }
+@keyframes shimmer { 0%{background-position:0 0;} 100%{background-position:100% 100%;} }
+</style>
+</head>
+
+<body>
+
+<div class="bg-shimmer"></div>
+
+<div class="card">
+  <h1>halloo <span class="annu">ANNU</span> 😌🫶❣️</h1>
+  <p> <br>You + Me = <br><br>What do u say… <strong>Will you be my Valentine?</strong> 💎💌</p>
+  <div class="buttons">
+    <button id="yes">YES 🥹</button>
+    <button id="no">NO 🙈</button>
+  </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+let dodgeInterval=null, heartsStarted=false;
+
+/* NO button dodge (relative movement around original position) */
+function startDodging() {
+  if(dodgeInterval) return;
+  dodgeInterval = setInterval(() => {
+    const x = (Math.random() * 120) - 60; // movement left/right
+    const y = (Math.random() * 60) - 30;  // movement up/down
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  },300);
+}
+
+noBtn.addEventListener("mouseenter", startDodging);
+noBtn.addEventListener("touchstart", startDodging);
+noBtn.addEventListener("click", e=>{ e.preventDefault(); startDodging(); });
+
+/* YES click */
+yesBtn.addEventListener("click", ()=>{
+  const card=document.querySelector(".card");
+  card.classList.add("slide-out");
+
+  setTimeout(()=>{
+    card.innerHTML=`<h1>Annu will u be my Valentine? 💕</h1>
+    <p>YES! 😭💖</p><p id="result"></p>`;
+    card.classList.remove("slide-out"); card.classList.add("slide-in");
+
+    /* Corner GIFs */
+    const leftGif=document.createElement("img");
+    leftGif.src="20251125-WA0016.gif"; leftGif.className="corner-gif left-gif";
+    const rightGif=document.createElement("img");
+    rightGif.src="20251125-WA0016.gif"; rightGif.className="corner-gif right-gif";
+    document.body.appendChild(leftGif); document.body.appendChild(rightGif);
+
+    /* Typing animation */
+    const answer=localStorage.getItem("annuAnswer") || "Forever 💞";
+    const resultEl=document.getElementById("result");
+    let index=0;
+    const text=`You + Me = ${answer} 💞`;
+    function typeEffect(){ if(index<text.length){ resultEl.innerHTML+=text.charAt(index); index++; setTimeout(typeEffect,100); } }
+    typeEffect();
+
+    /* Heart explosion */
+    for(let i=0;i<50;i++){
+      const h=document.createElement("div");
+      h.className="explosion";
+      const emojis=["❤","💖","💘","💝","💕"];
+      h.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+      h.style.left=window.innerWidth/2+"px";
+      h.style.top=window.innerHeight/2+"px";
+      const angle=Math.random()*2*Math.PI, dist=Math.random()*200+100;
+      h.style.setProperty("--x", dist*Math.cos(angle)+"px");
+      h.style.setProperty("--y", dist*Math.sin(angle)+"px");
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),1000);
+    }
+  },500);
+
+  startHearts();
+});
+
+/* Continuous background hearts */
+function startHearts(){
+  if(heartsStarted) return; heartsStarted=true;
+  setInterval(()=>{
+    const h=document.createElement("div"); h.className="heart";
+    const emojis=["❤","💖","💘","💝","💕"];
+    h.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=Math.random()*24+12+"px";
+    const duration=Math.random()*3+4;
+    const drift=(Math.random()*200-100)+"px";
+    h.style.animationDuration=duration+"s";
+    h.style.setProperty("--drift",drift);
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),duration*1000);
+  },400);
+}
+startHearts();
+</script>
+
+</body>
+</html>
