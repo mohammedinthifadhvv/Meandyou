@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You + Me = ?</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 22px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            max-width: 350px;
+            animation: pop 0.8s ease;
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(0.7);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-size: 26px;
+            color: #ff4d6d;
+        }
+
+        .question {
+            font-family: 'Pacifico', cursive;
+            font-size: 32px;
+            color: #ff2f68;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            border-radius: 30px;
+            border: 2px solid #ff4d6d;
+            outline: none;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 26px;
+            border: none;
+            border-radius: 30px;
+            background: #ff4d6d;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h1>Hey Annu 😌🫶</h1>
+        <div class="question">
+            You + Me = ?
+        </div>
+
+        <input type="text" id="answer" placeholder="Type your answer here 💭">
+
+        <br>
+        <button onclick="goNext()">Next 😏</button>
+    </div>
+
+    <script>
+        function goNext() {
+            const answer = document.getElementById("answer").value.trim();
+            if (answer === "") {
+                alert("haha,u very funny.!pls type ur answer,nallakutti<3!");
+                return;
+            }
+            // store her answer
+            localStorage.setItem("annuAnswer", answer);
+            // go to valentine page
+            window.location.href = "meandyou.html";
+        }
+    </script>
+
+</body>
+</html>
